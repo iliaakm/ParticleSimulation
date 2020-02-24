@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,6 +19,10 @@ public class UIController : MonoBehaviour
     Button _btnLoad;
     [SerializeField]
     Slider _sliderSpeed;
+    [SerializeField]
+    GameObject _overPopup;
+    [SerializeField]
+    Text _popupText;
 
     float _unitCount;
 
@@ -28,19 +33,43 @@ public class UIController : MonoBehaviour
         _progressRed.color = Color.red;
         _btnStart.onClick.AddListener(() => _mainController.StartSim());
         _sliderSpeed.onValueChanged.AddListener((x) => _mainController._physicsController.SetTimeScale(_sliderSpeed.value));
+        _btnStart.interactable = false;
     }
 
-    public void OnRemoveRed()
+    public void ShowPlayBtn()
     {
-        int redCoint = _mainController._sceneController._units.Where(x => x._side == Side.Red).Count();
-        _progressRed.fillAmount = redCoint / _unitCount * 0.5f;
+        _btnStart.interactable = true;
     }
 
-    public void OnRemoveBlue()
+    public void HidePlayBtn()
     {
-        int blueCoint = _mainController._sceneController._units.Where(x => x._side == Side.Blue).Count();
-        _progressBlue.fillAmount = blueCoint / _unitCount * 0.5f;
+        _btnStart.interactable = false;
     }
 
 
+    public void OnRemoveRed(int count)
+    {
+        _progressRed.fillAmount = count / _unitCount * 0.5f;
+    }
+
+    public void OnRemoveBlue(int count)
+    {
+        _progressBlue.fillAmount = count / _unitCount * 0.5f;
+    }
+
+    public void ShowGameOver(float time, Side sideWinner)
+    {
+        string winner = "Дружба";
+        if (sideWinner == Side.Red)
+            winner = "Красный";
+        if (sideWinner == Side.Blue)
+            winner = "Синий";
+
+        string msg = String.Format("Победитель: {0}", winner);
+        msg += System.Environment.NewLine;
+        msg += String.Format("Время симуляции: {0} мс", time);
+
+        _overPopup.SetActive(true);
+        _popupText.text = msg;
+    }
 }
