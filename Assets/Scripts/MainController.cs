@@ -13,16 +13,20 @@ public class MainController : MonoBehaviour
     public
     PhysicsController _physicsController;
 
-    [SerializeField]
+  public
     UIController _uiController;
 
-    // GameConfig _gameConfig;
+    float _timeStart;
 
     void Awake()
     {
         GameConfig _gameConfig = ioController.ParseGameConfig();
         Init(_gameConfig);
         _sceneController.Spawn(_gameConfig);
+        _sceneController.onReady += SceneReady;
+        _physicsController.onRemoveBlue += _uiController.OnRemoveBlue;
+        _physicsController.onRemoveRed += _uiController.OnRemoveRed;
+        _physicsController.onOver += Over;
     }
 
     void Init(GameConfig config)
@@ -31,12 +35,23 @@ public class MainController : MonoBehaviour
         _sceneController.SetCameraSize(config.gameAreaWidth);
 
         _uiController.Init(config.numUnitsToSpawn);
-        _physicsController.onRemoveBlue.AddListener(() => _uiController.OnRemoveBlue());
-        _physicsController.onRemoveRed.AddListener(() => _uiController.OnRemoveRed());
     }
 
     public void StartSim()
     {
         _physicsController.MoveStart();
+        _uiController.HidePlayBtn();
+        _timeStart = Time.time;
+    }
+
+    public void SceneReady()
+    {
+        _uiController.ShowPlayBtn();
+    }
+
+    public void Over(Side side)
+    {
+        float time = Time.time - _timeStart;
+        _uiController.ShowGameOver(time, side);
     }
 }
