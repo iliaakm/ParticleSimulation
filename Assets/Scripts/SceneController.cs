@@ -55,15 +55,19 @@ public class SceneController : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
+        for (int i = 0; i < _units.Count; i++)
+        {
+            _units[i].MoveStart();
+        }
         print("spawn done");
     }
 
-    Vector2 GetRandomPos()
+    Vector2 GetRandomPos(float radius)
     {
-        return GetRandomPos((int)_areaSize.x, (int)_areaSize.y);
+        return GetRandomPos((int)_areaSize.x, (int)_areaSize.y, radius);
     }
 
-    Vector2 GetRandomPos(int width, int height)
+    Vector2 GetRandomPos(int width, int height, float radius)
     {
         bool check = true;
         Vector2 pos = Vector2.zero;
@@ -73,16 +77,16 @@ public class SceneController : MonoBehaviour
             check = false;
             float X = Random.Range(0, width) - width / 2;
             float Y = Random.Range(0, height) - height / 2;
+
+            pos = new Vector2(X, Y);
             for (int i = 0; i < _units.Count; i++)
             {
-                if (_units[i].transform.localPosition.x == X || _units[i].transform.localPosition.y == Y)
+                if (Vector2.Distance(_units[i].pos, pos) < (radius + _units[i]._radius) / 2)
                 {
                     check = true;
                     break;
                 }
             }
-
-            pos = new Vector2(X, Y);
         }
 
         return pos;
@@ -91,12 +95,14 @@ public class SceneController : MonoBehaviour
     Enemy InstatiateUnit(int count, Vector2 radius, Vector2 speed, Side side)
     {
         GameObject unit = Instantiate(_unitPref, _gameArea, false);
-        unit.GetComponent<Enemy>().speed = Random.Range(speed.x, speed.y);
-        unit.GetComponent<Enemy>().radius = Random.Range(radius.x, radius.y);
-        unit.transform.localPosition = GetRandomPos();
+        unit.GetComponent<Enemy>()._speed = Random.Range(speed.x, speed.y);
+        float _radius = Random.Range(radius.x, radius.y);
+        unit.GetComponent<Enemy>()._radius = _radius;
+        unit.transform.localPosition = GetRandomPos(_radius);
         unit.transform.rotation = Quaternion.identity;
-        unit.transform.localScale = Vector3.one * unit.GetComponent<Enemy>().radius;
+        unit.transform.localScale = Vector3.one * unit.GetComponent<Enemy>()._radius;
         unit.GetComponent<Enemy>()._side = side;
+        unit.GetComponent<Enemy>()._areaSize = _areaSize;
 
         return unit.GetComponent<Enemy>();
     }
