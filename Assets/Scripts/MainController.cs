@@ -8,7 +8,7 @@ public class MainController : MonoBehaviour
     IOController ioController;
 
     [SerializeField]
-    SceneManager _sceneManager;
+    SceneController _sceneController;
 
     // GameConfig _gameConfig;
 
@@ -16,11 +16,12 @@ public class MainController : MonoBehaviour
     {
         GameConfig _gameConfig = ioController.ParseGameConfig();
         Init(_gameConfig);
+        _sceneController.Spawn(_gameConfig);
     }
 
     void Init(GameConfig config)
     {
-        _sceneManager.SetBGScale(config.gameAreaWidth, config.gameAreaHeight);
-        _sceneManager.SetCameraSize(config.gameAreaWidth);
+        _sceneController.SetBGScale(config.gameAreaWidth, config.gameAreaHeight);
+        _sceneController.SetCameraSize(config.gameAreaWidth);
     }
 }
