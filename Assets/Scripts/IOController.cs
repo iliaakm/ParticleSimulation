@@ -14,4 +14,13 @@ public class IOController: MonoBehaviour
         GameConfig gameConfig = JsonUtility.FromJson<GameConfigRoot>(json).GameConfig;
         return gameConfig;
     }
+
+    public void Save()
+    {
+
+    }
+
+    public void Load()
+    {
+    }
 }
