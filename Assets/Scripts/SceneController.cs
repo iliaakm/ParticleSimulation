@@ -39,8 +39,9 @@ public class SceneController : MonoBehaviour
         float delay = config.unitSpawnDelay;
         Vector2 radiusMinMax = new Vector2(config.unitSpawnMinRadius, config.unitSpawnMaxRadius);
         Vector2 speedMinMax = new Vector2(config.unitSpawnMinSpeed, config.unitSpawnMaxSpeed);
+        Vector2 cellSize = new Vector2(radiusMinMax.y, radiusMinMax.y);
+        minRadius = config.unitDestroyRadius;
 
-        StartCoroutine(SpawnRoutine(count, delay, radiusMinMax, speedMinMax));
         //yield return new WaitForSeconds(delay);
         for (int i = 0; i < count; i++)
         {
@@ -55,11 +56,6 @@ public class SceneController : MonoBehaviour
             _units.Add(redOne);
 
             yield return new WaitForFixedUpdate();
-        }
-
-        for (int i = 0; i < _units.Count; i++)
-        {
-            _units[i].MoveStart();
         }
         print("spawn done");
     }

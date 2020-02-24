@@ -7,11 +7,14 @@ public class MainController : MonoBehaviour
     [SerializeField]
     IOController ioController;
 
-    [SerializeField]
+    public 
     SceneController _sceneController;
 
-    [SerializeField]
+    public
     PhysicsController _physicsController;
+
+    [SerializeField]
+    UIController _uiController;
 
     // GameConfig _gameConfig;
 
@@ -26,5 +29,14 @@ public class MainController : MonoBehaviour
     {
         _sceneController.SetBGScale(config.gameAreaWidth, config.gameAreaHeight);
         _sceneController.SetCameraSize(config.gameAreaWidth);
+
+        _uiController.Init(config.numUnitsToSpawn);
+        _physicsController.onRemoveBlue.AddListener(() => _uiController.OnRemoveBlue());
+        _physicsController.onRemoveRed.AddListener(() => _uiController.OnRemoveRed());
+    }
+
+    public void StartSim()
+    {
+        _physicsController.MoveStart();
     }
 }
