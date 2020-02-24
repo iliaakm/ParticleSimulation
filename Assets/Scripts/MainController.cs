@@ -21,5 +21,6 @@ public class MainController : MonoBehaviour
     void Init(GameConfig config)
     {
         _sceneManager.SetBGScale(config.gameAreaWidth, config.gameAreaHeight);
+        _sceneManager.SetCameraSize(config.gameAreaWidth);
     }
 }
