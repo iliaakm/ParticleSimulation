@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SceneController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class SceneController : MonoBehaviour
     public List<Enemy> _units = new List<Enemy>();
     public Vector2 _areaSize;
     public float minRadius;
+    public UnityAction onReady;
 
     public void SetBGScale(int x, int y)
     {
@@ -57,7 +59,7 @@ public class SceneController : MonoBehaviour
 
             yield return new WaitForFixedUpdate();
         }
-        print("spawn done");
+        onReady.Invoke();
     }
 
     Vector2 GetRandomPos(float radius)
@@ -69,10 +71,18 @@ public class SceneController : MonoBehaviour
     {
         bool check = true;
         Vector2 pos = Vector2.zero;
+        int counter = 0;
 
         while (check)
         {
             check = false;
+            counter++;
+            if(counter == 1000)
+            {
+                Debug.LogError("No more space");
+                return Vector2.zero;
+            }
+
             float X = Random.Range(0, width) - width / 2;
             float Y = Random.Range(0, height) - height / 2;
 
