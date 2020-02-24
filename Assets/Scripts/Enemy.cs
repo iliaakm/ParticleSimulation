@@ -21,7 +21,13 @@ public class Enemy : MonoBehaviour
     int _axis;
     bool canMove;
 
-    public void MoveStart()
+    public void StartMovement()
+    {
+        canMove = true;
+        ReDirection();
+    }
+
+    public void ReDirection()
     {
         _target = Vector2.zero;
         if (_axis == 0)
@@ -40,8 +46,6 @@ public class Enemy : MonoBehaviour
             _target.x = Random.Range(0, _areaSize.x) - _areaSize.x / 2;
         }
         _target.z = transform.localPosition.z;
-        
-        canMove = true;
     }
 
     private void Move()
@@ -51,7 +55,7 @@ public class Enemy : MonoBehaviour
         _currentCell = new Vector2(Mathf.RoundToInt(pos.x / _cellSize.x), Mathf.RoundToInt(pos.y / _cellSize.y));
 
         if (transform.localPosition == _target)
-            MoveStart();
+            ReDirection();
     }
 
     private void FixedUpdate()
