@@ -1041,12 +1041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneController: {fileID: 1309112510}
-  onRemoveBlue:
-    m_PersistentCalls:
-      m_Calls: []
-  onRemoveRed:
-    m_PersistentCalls:
-      m_Calls: []
+  _mainController: {fileID: 1309112508}
 --- !u!114 &1309112512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1066,6 +1061,8 @@ MonoBehaviour:
   _btnSave: {fileID: 1730322947}
   _btnLoad: {fileID: 958766459}
   _sliderSpeed: {fileID: 1835240474}
+  _overPopup: {fileID: 224320342}
+  _popupText: {fileID: 791774288}
 --- !u!1 &1455694026
 GameObject:
   m_ObjectHideFlags: 0
