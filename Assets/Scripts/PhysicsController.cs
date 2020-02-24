@@ -9,14 +9,19 @@ public class PhysicsController : MonoBehaviour
     [SerializeField]
     SceneController _sceneController;
 
+    [SerializeField]
+    MainController _mainController;
+
     [HideInInspector]
-    public UnityEvent onRemoveBlue;
+    public UnityAction<int> onRemoveBlue;
     [HideInInspector]
-    public UnityEvent onRemoveRed;
+    public UnityAction<int> onRemoveRed;
+    [HideInInspector]
+    public UnityAction<Side> onOver;
 
     float _fixeTimeDefault;
 
-    bool handlePhysics = true;
+    bool handlePhysics = false;
 
     private void FixedUpdate()
     {
@@ -55,8 +60,8 @@ public class PhysicsController : MonoBehaviour
                 {
                     if (currentEnemy._side == oppositeEnemy._side)
                     {
-                        currentEnemy.MoveStart();
-                        oppositeEnemy.MoveStart();
+                        currentEnemy.ReDirection();
+                        oppositeEnemy.ReDirection();
                         //Debug.Log("faced " + oppositeEnemy.name + " " + currentEnemy.name, oppositeEnemy.gameObject);
                     }
                     else
@@ -66,8 +71,8 @@ public class PhysicsController : MonoBehaviour
                         {                          
                             //print("remove " + oppositeEnemy.name);
                             _sceneController._units.Remove(oppositeEnemy);
-                            if (oppositeEnemy._side == Side.Blue) onRemoveBlue.Invoke();
-                            if (oppositeEnemy._side == Side.Red) onRemoveRed.Invoke();
+                            if (oppositeEnemy._side == Side.Blue) OnRemoveBlue();
+                            if (oppositeEnemy._side == Side.Red) OnRemoveRed();
 
                             nearby.Remove(oppositeEnemy);
                             DestroyImmediate(oppositeEnemy.gameObject);
@@ -79,9 +84,10 @@ public class PhysicsController : MonoBehaviour
                         if (radius < _sceneController.minRadius)
                         {
                             //print("remove " + currentEnemy.name);
-                            _sceneController._units.Remove(currentEnemy);
-                            if (currentEnemy._side == Side.Blue) onRemoveBlue.Invoke();
-                            if (currentEnemy._side == Side.Red) onRemoveRed.Invoke();
+                            _sceneController._units.Remove(currentEnemy);                           
+                            if (currentEnemy._side == Side.Blue) OnRemoveBlue();
+                            if (currentEnemy._side == Side.Red) OnRemoveRed();
+
                             DestroyImmediate(currentEnemy.gameObject);
                             break;
                         }
@@ -93,14 +99,31 @@ public class PhysicsController : MonoBehaviour
 
     public void MoveStart()
     {
+        handlePhysics = true;
         for (int i = 0; i < _sceneController._units.Count; i++)
         {
-            _sceneController._units[i].MoveStart();
+            _sceneController._units[i].StartMovement();
         }
     }
 
     public void SetTimeScale(float value)
     {
         Time.timeScale = value;
+    }
+
+    public void OnRemoveRed()
+    {
+        int redCoint = _sceneController._units.Where(x => x._side == Side.Red).Count();
+        if (redCoint == 0)
+            onOver.Invoke(Side.Blue);
+        onRemoveRed.Invoke(redCoint);
+    }
+
+    public void OnRemoveBlue()
+    {
+        int blueCoint = _mainController._sceneController._units.Where(x => x._side == Side.Blue).Count();
+        if (blueCoint == 0)
+            onOver.Invoke(Side.Red);
+        onRemoveBlue.Invoke(blueCoint);
     }
 }
