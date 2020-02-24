@@ -18,6 +18,8 @@ public class UIController : MonoBehaviour
     [SerializeField]
     Button _btnLoad;
     [SerializeField]
+    Button _btnReload;
+    [SerializeField]
     Slider _sliderSpeed;
     [SerializeField]
     GameObject _overPopup;
@@ -32,6 +34,7 @@ public class UIController : MonoBehaviour
         _progressBlue.color = Color.blue;
         _progressRed.color = Color.red;
         _btnStart.onClick.AddListener(() => _mainController.StartSim());
+        _btnReload.onClick.AddListener(() => _mainController.Reload());
         _sliderSpeed.onValueChanged.AddListener((x) => _mainController._physicsController.SetTimeScale(_sliderSpeed.value));
         _btnStart.interactable = false;
     }
