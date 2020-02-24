@@ -12,9 +12,10 @@ public class SceneController : MonoBehaviour
     Transform _gameArea;
     [SerializeField]
     GameObject _unitPref;
-
-    List<Enemy> _units = new List<Enemy>();
-    Vector2 _areaSize;
+    
+    public List<Enemy> _units = new List<Enemy>();
+    public Vector2 _areaSize;
+    public float minRadius;
 
     public void SetBGScale(int x, int y)
     {
@@ -29,25 +30,26 @@ public class SceneController : MonoBehaviour
 
     public void Spawn(GameConfig config)
     {
+        StartCoroutine(SpawnRoutine(config));
+    }
+
+    IEnumerator SpawnRoutine(GameConfig config)
+    {
         int count = config.numUnitsToSpawn;
         float delay = config.unitSpawnDelay;
         Vector2 radiusMinMax = new Vector2(config.unitSpawnMinRadius, config.unitSpawnMaxRadius);
         Vector2 speedMinMax = new Vector2(config.unitSpawnMinSpeed, config.unitSpawnMaxSpeed);
 
         StartCoroutine(SpawnRoutine(count, delay, radiusMinMax, speedMinMax));
-    }
-
-    IEnumerator SpawnRoutine(int count, float delay, Vector2 radius, Vector2 speed)
-    {
-        yield return new WaitForSeconds(delay);
+        //yield return new WaitForSeconds(delay);
         for (int i = 0; i < count; i++)
         {
-            Enemy blueOne = InstatiateUnit(count, radius, speed, Side.Blue);            //спавним синих
+            Enemy blueOne = InstatiateUnit(count, radiusMinMax, speedMinMax, cellSize, Side.Blue);            //спавним синих
             blueOne.GetComponent<SpriteRenderer>().color = Color.blue;
             blueOne.name = "Blue_" + i;
             _units.Add(blueOne);
 
-            Enemy redOne = InstatiateUnit(count, radius, speed, Side.Red);            //спавним красных
+            Enemy redOne = InstatiateUnit(count, radiusMinMax, speedMinMax, cellSize, Side.Red);            //спавним красных
             redOne.GetComponent<SpriteRenderer>().color = Color.red;
             redOne.name = "Red_" + i;
             _units.Add(redOne);
@@ -92,17 +94,17 @@ public class SceneController : MonoBehaviour
         return pos;
     }
 
-    Enemy InstatiateUnit(int count, Vector2 radius, Vector2 speed, Side side)
+    Enemy InstatiateUnit(int count, Vector2 radius, Vector2 speed, Vector2 cellSize, Side side)
     {
         GameObject unit = Instantiate(_unitPref, _gameArea, false);
         unit.GetComponent<Enemy>()._speed = Random.Range(speed.x, speed.y);
         float _radius = Random.Range(radius.x, radius.y);
-        unit.GetComponent<Enemy>()._radius = _radius;
+        unit.GetComponent<Enemy>().SetRadius(_radius);
         unit.transform.localPosition = GetRandomPos(_radius);
         unit.transform.rotation = Quaternion.identity;
-        unit.transform.localScale = Vector3.one * unit.GetComponent<Enemy>()._radius;
         unit.GetComponent<Enemy>()._side = side;
         unit.GetComponent<Enemy>()._areaSize = _areaSize;
+        unit.GetComponent<Enemy>()._cellSize = cellSize;
 
         return unit.GetComponent<Enemy>();
     }

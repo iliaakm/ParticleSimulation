@@ -10,6 +10,9 @@ public class MainController : MonoBehaviour
     [SerializeField]
     SceneController _sceneController;
 
+    [SerializeField]
+    PhysicsController _physicsController;
+
     // GameConfig _gameConfig;
 
     void Awake()

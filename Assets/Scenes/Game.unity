@@ -933,6 +933,7 @@ GameObject:
   - component: {fileID: 1309112508}
   - component: {fileID: 1309112507}
   - component: {fileID: 1309112510}
+  - component: {fileID: 1309112511}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -966,6 +967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ioController: {fileID: 1309112507}
   _sceneController: {fileID: 1309112510}
+  _physicsController: {fileID: 0}
 --- !u!4 &1309112509
 Transform:
   m_ObjectHideFlags: 0
@@ -997,6 +999,21 @@ MonoBehaviour:
   _gameArea: {fileID: 311683308}
   _unitPref: {fileID: 3226281274966302609, guid: 635e84e35df6eb941a50098d3bf9c5d4,
     type: 3}
+  _units: []
+  _areaSize: {x: 0, y: 0}
+--- !u!114 &1309112511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309112506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f66c2dafb493474abe18184fd933554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneController: {fileID: 1309112510}
 --- !u!1 &1455694026
 GameObject:
   m_ObjectHideFlags: 0

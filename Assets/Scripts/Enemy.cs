@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
     public float _speed;
     public Vector2 pos;
     public Vector2 _areaSize;
+    public Vector2 _currentCell;
+    public Vector2 _cellSize;
 
     Vector3 _target;
     int _axis;
@@ -45,6 +47,9 @@ public class Enemy : MonoBehaviour
     private void Move()
     {
         transform.localPosition = Vector2.MoveTowards(transform.localPosition, _target, _speed * Time.fixedDeltaTime);
+        Vector2 pos = transform.localPosition + (Vector3)_areaSize/2;
+        _currentCell = new Vector2(Mathf.RoundToInt(pos.x / _cellSize.x), Mathf.RoundToInt(pos.y / _cellSize.y));
+
         if (transform.localPosition == _target)
             MoveStart();
     }
@@ -56,5 +61,11 @@ public class Enemy : MonoBehaviour
     int RandomSign()
     {
         return Random.value < 0.5f ? 1 : -1;
+    }
+
+    public void SetRadius(float radius)
+    {
+        _radius = radius;
+        transform.localScale = Vector3.one * radius;
     }
 }
