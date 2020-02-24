@@ -386,7 +386,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 414219305}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 311683308}
@@ -965,7 +965,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ioController: {fileID: 1309112507}
-  _sceneManager: {fileID: 1309112510}
+  _sceneController: {fileID: 1309112510}
 --- !u!4 &1309112509
 Transform:
   m_ObjectHideFlags: 0
@@ -994,6 +994,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bg: {fileID: 414219306}
   _camera: {fileID: 519420031}
+  _gameArea: {fileID: 311683308}
+  _unitPref: {fileID: 3226281274966302609, guid: 635e84e35df6eb941a50098d3bf9c5d4,
+    type: 3}
 --- !u!1 &1455694026
 GameObject:
   m_ObjectHideFlags: 0
