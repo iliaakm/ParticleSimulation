@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class IOController : MonoBehaviour
 {
@@ -11,10 +12,31 @@ public class IOController : MonoBehaviour
 
     public GameConfig ParseGameConfig()                     //читаем конфиг
     {
-        string filepath = Path.Combine(Application.streamingAssetsPath, _gameConfigURL);
-        string json = File.ReadAllText(filepath);
+        
+        string json = ReadJSON(_gameConfigURL);
         GameConfig gameConfig = JsonUtility.FromJson<GameConfigRoot>(json).GameConfig;
         return gameConfig;
+    }
+
+    string ReadJSON(string url)
+    {
+        string json = "";
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            string filePath = "jar:file://" + Application.dataPath + "!/assets/" + _gameConfigURL;
+
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                json = reader.ReadToEnd();
+            }
+            return json;            
+        }
+        else
+        {
+            string filePath = Path.Combine(Application.streamingAssetsPath, _gameConfigURL);
+            json = File.ReadAllText(filePath);
+            return json;
+        }
     }
 
     public void Save()
