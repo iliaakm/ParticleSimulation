@@ -13,7 +13,7 @@ public class SaveConfig
 }
 
 [Serializable]
-class SaveConfigList
+public class SaveConfigList
 {
     public SaveConfig[] saveConfigs;
 }
