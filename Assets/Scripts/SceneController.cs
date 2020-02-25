@@ -15,6 +15,8 @@ public class SceneController : MonoBehaviour
     [SerializeField]
     GameObject _unitPref;
 
+    public int cameraHeight;
+
     public List<Enemy> _units = new List<Enemy>();
     public Vector2 _areaSize;
     public float minRadius;
@@ -28,9 +30,13 @@ public class SceneController : MonoBehaviour
         _areaSize = new Vector2(x, y);
     }
 
-    public void SetCameraSize(float width)
+    private void FixedUpdate()
     {
-        _camera.orthographicSize = width / 2;
+        float aspect = (float)Screen.height / (float)Screen.width;
+        if (aspect > 1)
+            Camera.main.orthographicSize = aspect * _areaSize.x/2;
+        else
+            _camera.orthographicSize = _areaSize.x / 2;
     }
 
     public void Spawn(GameConfig config)
@@ -145,7 +151,7 @@ public class SceneController : MonoBehaviour
 
         _units.Clear();
         float radiusMinMax = _mainController._gameConfig.unitSpawnMaxRadius;
-        Vector2 cellSize = new Vector2( radiusMinMax, radiusMinMax);
+        Vector2 cellSize = new Vector2(radiusMinMax, radiusMinMax);
 
         for (int i = 0; i < saves.saveConfigs.Length; i++)
         {
