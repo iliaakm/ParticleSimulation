@@ -56,6 +56,9 @@ public class MainController : MonoBehaviour
 
     void Init(GameConfig config)                //инициализация
     {
+        _gameConfig.unitDestroyRadius *= 2;     //для удобства переводим в диаметры    
+        _gameConfig.unitSpawnMaxRadius *= 2;
+        _gameConfig.unitSpawnMinRadius *= 2;
         _sceneController.SetBGScale(config.gameAreaWidth, config.gameAreaHeight);
 
         _uiController.Init(config.numUnitsToSpawn);
