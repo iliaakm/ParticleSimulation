@@ -971,6 +971,7 @@ GameObject:
   - component: {fileID: 1309112510}
   - component: {fileID: 1309112511}
   - component: {fileID: 1309112512}
+  - component: {fileID: 1309112513}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -990,7 +991,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c4c4cc84b92f24788ebf602d2c942e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneController: {fileID: 1309112510}
 --- !u!114 &1309112508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1003,20 +1003,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddbcdf6ec2bd334899d832085c84fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ioController: {fileID: 1309112507}
-  _sceneController: {fileID: 1309112510}
-  _physicsController: {fileID: 1309112511}
-  _uiController: {fileID: 1309112512}
-  _gameConfig:
-    gameAreaWidth: 0
-    gameAreaHeight: 0
-    numUnitsToSpawn: 0
-    unitSpawnDelay: 0
-    unitSpawnMinRadius: 0
-    unitSpawnMaxRadius: 0
-    unitSpawnMinSpeed: 0
-    unitSpawnMaxSpeed: 0
-    unitDestroyRadius: 0
 --- !u!4 &1309112509
 Transform:
   m_ObjectHideFlags: 0
@@ -1043,16 +1029,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8eb6f400e323341bea576b8aac349f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainController: {fileID: 1309112508}
   _bg: {fileID: 414219306}
   _camera: {fileID: 519420031}
   _gameArea: {fileID: 311683308}
   _unitPref: {fileID: 3226281274966302609, guid: 635e84e35df6eb941a50098d3bf9c5d4,
     type: 3}
-  cameraHeight: 50
   _units: []
-  _areaSize: {x: 0, y: 0}
-  minRadius: 0
 --- !u!114 &1309112511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1065,8 +1047,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f66c2dafb493474abe18184fd933554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneController: {fileID: 1309112510}
-  _mainController: {fileID: 1309112508}
 --- !u!114 &1309112512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1079,7 +1059,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8474988218418a84ab69604b27c20751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainController: {fileID: 1309112508}
   _progressRed: {fileID: 1523722949}
   _progressBlue: {fileID: 1944254680}
   _btnStart: {fileID: 345652481}
@@ -1089,6 +1068,90 @@ MonoBehaviour:
   _sliderSpeed: {fileID: 1835240474}
   _overPopup: {fileID: 224320342}
   _popupText: {fileID: 791774288}
+--- !u!114 &1309112513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309112506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _components:
+  - {fileID: 1309112508}
+  - {fileID: 1309112507}
+  - {fileID: 1309112510}
+  - {fileID: 1309112511}
+  - {fileID: 1309112512}
+  _identifier: 
+  _useSceneContext: 0
+  _context: {fileID: 0}
+  _bindType: 0
+--- !u!1 &1363683056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1363683058}
+  - component: {fileID: 1363683057}
+  m_Layer: 0
+  m_Name: SceneContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1363683057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363683056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers: []
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []
+--- !u!4 &1363683058
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363683056}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 57.994324, y: -22.596863, z: 113.52125}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1455694026
 GameObject:
   m_ObjectHideFlags: 0
