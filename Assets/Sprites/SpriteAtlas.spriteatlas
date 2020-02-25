@@ -43,14 +43,16 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 0f5c7ee9dc884a945a1be8f715a5ac6c, type: 3}
-    totalSpriteSurfaceArea: 20000
+    totalSpriteSurfaceArea: 1020000
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 1e13f7c17efc8ae408f290dd8c628d7c, type: 3}
   - {fileID: 21300000, guid: 585b0e0f9f630764cb989b2b20f704c1, type: 3}
+  - {fileID: 21300000, guid: ef0448efd72ec5244bd12aed6c6d0489, type: 3}
   m_PackedSpriteNamesToIndex:
   - Rect
   - Circle
+  - icon
   m_Tag: SpriteAtlas
   m_IsVariant: 0
