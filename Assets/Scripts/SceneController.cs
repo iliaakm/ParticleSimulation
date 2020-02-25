@@ -19,10 +19,9 @@ public class SceneController : MonoBehaviour
     GameObject _unitPref;                   //префаб юнита
 
     public List<Enemy> _units = new List<Enemy>();          //список активных юнитов
-    public Vector2 _areaSize;                               //размер зоны (убрать)
-    public float minRadius;                                 //мин радиус (убрать)    
     public UnityAction onReady;                             //эвент по окончанию загрузки
 
+    Vector2 _areaSize;                                      //размер зоны ()
     float _screenRatio;                                     //последнее соотношение сторон экрана    
     Coroutine cor;                                          //переменная корутин    
 
@@ -64,7 +63,6 @@ public class SceneController : MonoBehaviour
         Vector2 radiusMinMax = new Vector2(config.unitSpawnMinRadius, config.unitSpawnMaxRadius);
         Vector2 speedMinMax = new Vector2(config.unitSpawnMinSpeed, config.unitSpawnMaxSpeed);
         Vector2 cellSize = new Vector2(radiusMinMax.y, radiusMinMax.y);                                 //размер ячейки для обсчета физики
-        minRadius = config.unitDestroyRadius;
 
         for (int i = 0; i < count; i++)
         {
@@ -163,7 +161,7 @@ public class SceneController : MonoBehaviour
             DestroyImmediate(_units[i].gameObject);
 
         _units.Clear();
-        float radiusMinMax = _mainController._gameConfig.unitSpawnMaxRadius;
+        float radiusMinMax = _mainController.gameConfig.unitSpawnMaxRadius;
         Vector2 cellSize = new Vector2(radiusMinMax, radiusMinMax);
 
         for (int i = 0; i < saves.saveConfigs.Length; i++)
