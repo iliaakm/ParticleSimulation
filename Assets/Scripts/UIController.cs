@@ -33,7 +33,7 @@ public class UIController : MonoBehaviour
 
     float _unitCount;
 
-    public void Init(int count)
+    public void Init(int count)                     //инициализация
     {
         _unitCount = count;
         _progressBlue.color = Color.blue;
@@ -45,28 +45,28 @@ public class UIController : MonoBehaviour
         _sliderSpeed.onValueChanged.AddListener((x) => _physicsController.SetTimeScale(_sliderSpeed.value));
     }
 
-    public void ShowPlayBtn()
+    public void ShowPlayBtn()                       //вкл play
     {
         _btnStart.interactable = true;
     }
 
-    public void HidePlayBtn()
+    public void HidePlayBtn()                       //выкл play
     {
         _btnStart.interactable = false;
     }
 
 
-    public void OnRemoveRed(int count)
+    public void OnRemoveRed(int count)              //событие по уничтожению красного
     {
         _progressRed.fillAmount = count / _unitCount * 0.5f;
     }
 
-    public void OnRemoveBlue(int count)
+    public void OnRemoveBlue(int count)             //событие по уничтожению красного
     {
         _progressBlue.fillAmount = count / _unitCount * 0.5f;
     }
 
-    public void ShowGameOver(float time, Side sideWinner)
+    public void ShowGameOver(float time, Side sideWinner)       //показать game over
     {
         string winner = "Дружба";
         if (sideWinner == Side.Red)
