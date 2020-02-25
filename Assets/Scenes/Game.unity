@@ -990,6 +990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c4c4cc84b92f24788ebf602d2c942e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sceneController: {fileID: 1309112510}
 --- !u!114 &1309112508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1002,7 +1003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddbcdf6ec2bd334899d832085c84fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ioController: {fileID: 1309112507}
+  _ioController: {fileID: 1309112507}
   _sceneController: {fileID: 1309112510}
   _physicsController: {fileID: 1309112511}
   _uiController: {fileID: 1309112512}
