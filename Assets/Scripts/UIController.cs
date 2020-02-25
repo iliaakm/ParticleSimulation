@@ -34,6 +34,8 @@ public class UIController : MonoBehaviour
         _progressBlue.color = Color.blue;
         _progressRed.color = Color.red;
         _btnStart.onClick.AddListener(() => _mainController.StartSim());
+        _btnSave.onClick.AddListener(() => _mainController.ioController.Save());
+        _btnLoad.onClick.AddListener(() => _mainController.ioController.Load());
         _btnReload.onClick.AddListener(() => _mainController.Reload());
         _sliderSpeed.onValueChanged.AddListener((x) => _mainController._physicsController.SetTimeScale(_sliderSpeed.value));
         _btnStart.interactable = false;
