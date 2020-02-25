@@ -36,9 +36,11 @@ public class MainController : MonoBehaviour
 
     float _timeStart;
 
+    public GameConfig _gameConfig;
+
     void Awake()
     {
-        GameConfig _gameConfig = _ioController.ParseGameConfig();
+        _gameConfig = _ioController.ParseGameConfig();
         Init(_gameConfig);
 
         _sceneController.onReady += SceneReady;
@@ -81,6 +83,9 @@ public class MainController : MonoBehaviour
     public void SceneReady()
     {
         _uiController.ShowPlayBtn();
+        _physicsController.OnRemoveBlue();
+        _physicsController.OnRemoveRed();
+
         _State = State.Ready;
     }
 
@@ -100,7 +105,7 @@ public class MainController : MonoBehaviour
     {
         _State = State.Loading;
         SaveConfigList saves = _ioController.Load();
-        _sceneController.Load(saves);
+        _sceneController.Load(saves, _gameConfig.unitSpawnDelay);
     }
 
     public void Reload()
