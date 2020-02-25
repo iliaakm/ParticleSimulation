@@ -54,14 +54,14 @@ public class MainController : MonoBehaviour
         Spawn(_gameConfig);
     }
 
-    void Init(GameConfig config)
+    void Init(GameConfig config)                //инициализация
     {
         _sceneController.SetBGScale(config.gameAreaWidth, config.gameAreaHeight);
 
         _uiController.Init(config.numUnitsToSpawn);
     }
 
-    public void StartSim()
+    public void StartSim()                      //начать симуляцию
     {
         if (_State == State.Ready)
         {
@@ -72,16 +72,16 @@ public class MainController : MonoBehaviour
         }
     }
 
-    void Spawn(GameConfig gameConfig)
+    void Spawn(GameConfig gameConfig)           //спаун юнитов
     {
         if (_State == State.Idle)
         {
             _State = State.Loading;
             _sceneController.Spawn(gameConfig);            
         }
-    }
+    }               
 
-    public void SceneReady()
+    public void SceneReady()                    //готовность к запуску, юниты загружены
     {
         _uiController.ShowPlayBtn();
         _physicsController.OnRemoveBlue();
@@ -90,31 +90,31 @@ public class MainController : MonoBehaviour
         _State = State.Ready;
     }
 
-    public void Over(Side side)
+    public void Over(Side side)                 //конец игры, показать победителя
     {
         float time = Time.time - _timeStart;
         _uiController.ShowGameOver(time, side);
         _State = State.Over;
     }
 
-    public void Save()
+    public void Save()                          //сохранить
     {
         _ioController.Save();
     }
 
-    public void Load()
+    public void Load()                          //загрузить
     {
         _State = State.Loading;
         SaveConfigList saves = _ioController.Load();
         _sceneController.Load(saves, _gameConfig.unitSpawnDelay);
-    }
+    }                       
 
-    public void Reload()
+    public void Reload()                        //начать заново
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    void OnStateChange()
+    void OnStateChange()                        //действия при смене состояния
     {
         switch(_State)
         {
