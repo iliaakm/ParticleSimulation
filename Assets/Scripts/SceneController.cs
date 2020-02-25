@@ -106,7 +106,7 @@ public class SceneController : MonoBehaviour
             pos = new Vector2(X, Y);
             for (int i = 0; i < _units.Count; i++)
             {
-                if (Vector2.Distance(_units[i]._pos, pos) < (radius + _units[i]._radius) / 2)
+                if (Vector2.Distance(_units[i].Pos, pos) < (radius + _units[i].Radius) / 2)
                 {
                     check = true;
                     break;
@@ -136,13 +136,15 @@ public class SceneController : MonoBehaviour
         unit.transform.rotation = Quaternion.identity;
 
         Enemy enemy = unit.GetComponent<Enemy>();
-        enemy.SetPos(unitConfig.pos);
-        enemy.SetRadius(unitConfig.radius);
-        enemy._speed = unitConfig.speed;
-        enemy._side = unitConfig.side;
-        enemy._areaSize = _areaSize;
-        enemy._cellSize = cellSize;
-        unit.GetComponent<SpriteRenderer>().color = (enemy._side == Side.Blue) ? Color.blue : Color.red;
+        enemy.Init(
+            unitConfig.radius,
+            unitConfig.speed,
+            unitConfig.side,
+            unitConfig.pos,
+            _areaSize,
+            cellSize);
+            
+        unit.GetComponent<SpriteRenderer>().color = (enemy.Side == Side.Blue) ? Color.blue : Color.red;
         _units.Add(enemy);
 
         return unit.GetComponent<Enemy>();
@@ -168,7 +170,6 @@ public class SceneController : MonoBehaviour
         {
             InstatiateUnit(saves.saveConfigs[i], cellSize);
             yield return new WaitForSeconds(delay);
-
         }
 
         onReady.Invoke();
