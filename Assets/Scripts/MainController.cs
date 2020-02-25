@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainController : MonoBehaviour
 {
-    [SerializeField]
+public
     IOController ioController;
 
     public 
