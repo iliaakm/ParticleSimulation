@@ -14,7 +14,7 @@ public enum State
 
 public class MainController : MonoBehaviour
 {
-    public IOController ioController;
+    public IOController _ioController;
 
     public SceneController _sceneController;
 
@@ -38,7 +38,7 @@ public class MainController : MonoBehaviour
 
     void Awake()
     {
-        GameConfig _gameConfig = ioController.ParseGameConfig();
+        GameConfig _gameConfig = _ioController.ParseGameConfig();
         Init(_gameConfig);
 
         _sceneController.onReady += SceneReady;
@@ -89,6 +89,18 @@ public class MainController : MonoBehaviour
         float time = Time.time - _timeStart;
         _uiController.ShowGameOver(time, side);
         _State = State.Over;
+    }
+
+    public void Save()
+    {
+        _ioController.Save();
+    }
+
+    public void Load()
+    {
+        _State = State.Loading;
+        SaveConfigList saves = _ioController.Load();
+        _sceneController.Load(saves);
     }
 
     public void Reload()
