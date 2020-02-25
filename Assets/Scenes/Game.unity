@@ -1007,6 +1007,16 @@ MonoBehaviour:
   _sceneController: {fileID: 1309112510}
   _physicsController: {fileID: 1309112511}
   _uiController: {fileID: 1309112512}
+  _gameConfig:
+    gameAreaWidth: 0
+    gameAreaHeight: 0
+    numUnitsToSpawn: 0
+    unitSpawnDelay: 0
+    unitSpawnMinRadius: 0
+    unitSpawnMaxRadius: 0
+    unitSpawnMinSpeed: 0
+    unitSpawnMaxSpeed: 0
+    unitDestroyRadius: 0
 --- !u!4 &1309112509
 Transform:
   m_ObjectHideFlags: 0
@@ -1033,6 +1043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8eb6f400e323341bea576b8aac349f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainController: {fileID: 1309112508}
   _bg: {fileID: 414219306}
   _camera: {fileID: 519420031}
   _gameArea: {fileID: 311683308}
