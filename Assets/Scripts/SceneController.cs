@@ -44,7 +44,7 @@ public class SceneController : MonoBehaviour
             return;
 
         if (screenRatio > 1)
-            Camera.main.orthographicSize = screenRatio * _areaSize.x / 2;
+            _camera.orthographicSize = screenRatio * _areaSize.x / 2;
         else
             _camera.orthographicSize = _areaSize.x / 2;
     }
