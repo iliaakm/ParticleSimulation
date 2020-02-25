@@ -2,39 +2,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Zenject;
 
 public class SceneController : MonoBehaviour
 {
-    public MainController _mainController;
-    [SerializeField]
-    Transform _bg;
-    [SerializeField]
-    Camera _camera;
-    [SerializeField]
-    Transform _gameArea;
-    [SerializeField]
-    GameObject _unitPref;
+    [Inject]
+    MainController _mainController;          //главный контроллер                                   
 
-    public int cameraHeight;
+    [SerializeField]
+    Transform _bg;                          //фон
+    [SerializeField]
+    Camera _camera;                         //главная камера
+    [SerializeField]
+    Transform _gameArea;                    //игровая зона
+    [SerializeField]
+    GameObject _unitPref;                   //префаб юнита
 
-    public List<Enemy> _units = new List<Enemy>();
-    public Vector2 _areaSize;
-    public float minRadius;
-    public UnityAction onReady;
+    public List<Enemy> _units = new List<Enemy>();          //список активных юнитов
+    public Vector2 _areaSize;                               //размер зоны (убрать)
+    public float minRadius;                                 //мин радиус (убрать)    
+    public UnityAction onReady;                             //эвент по окончанию загрузки
 
-    Coroutine cor;
+    float _screenRatio;                                     //последнее соотношение сторон экрана    
+    Coroutine cor;                                          //переменная корутин    
 
-    public void SetBGScale(int x, int y)
+    public void SetBGScale(int x, int y)                                //установка игровой зоны
     {
         _bg.localScale = new Vector3(x, y, 1);
         _areaSize = new Vector2(x, y);
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate()                                          //для экономии ресурсов, запускаем в FixedUpdate
     {
-        float aspect = (float)Screen.height / (float)Screen.width;
-        if (aspect > 1)
-            Camera.main.orthographicSize = aspect * _areaSize.x/2;
+        ScreenRatioHndler();
+    }
+
+    void ScreenRatioHndler()                                            //проверка соотношения сторон экрана
+    {
+        float screenRatio = (float)Screen.height / (float)Screen.width;
+
+        if (screenRatio == _screenRatio)
+            return;
+
+        if (screenRatio > 1)
+            Camera.main.orthographicSize = screenRatio * _areaSize.x / 2;
         else
             _camera.orthographicSize = _areaSize.x / 2;
     }
@@ -44,15 +55,15 @@ public class SceneController : MonoBehaviour
         if (cor != null)
             StopCoroutine(cor);
         cor = StartCoroutine(SpawnRoutine(config));
-    }
+    }                            //запуск спауна
 
-    IEnumerator SpawnRoutine(GameConfig config)
+    IEnumerator SpawnRoutine(GameConfig config)                         //корутина спауна
     {
         int count = config.numUnitsToSpawn;
         float delay = config.unitSpawnDelay;
         Vector2 radiusMinMax = new Vector2(config.unitSpawnMinRadius, config.unitSpawnMaxRadius);
         Vector2 speedMinMax = new Vector2(config.unitSpawnMinSpeed, config.unitSpawnMaxSpeed);
-        Vector2 cellSize = new Vector2(radiusMinMax.y, radiusMinMax.y);
+        Vector2 cellSize = new Vector2(radiusMinMax.y, radiusMinMax.y);                                 //размер ячейки для обсчета физики
         minRadius = config.unitDestroyRadius;
 
         for (int i = 0; i < count; i++)
@@ -68,12 +79,12 @@ public class SceneController : MonoBehaviour
         onReady.Invoke();
     }
 
-    Vector2 GetRandomPos(float radius)
+    Vector2 GetRandomPos(float radius)                                  //рандомная позиция для радиуса
     {
         return GetRandomPos((int)_areaSize.x, (int)_areaSize.y, radius);
-    }
+    }                                                              
 
-    Vector2 GetRandomPos(int width, int height, float radius)
+    Vector2 GetRandomPos(int width, int height, float radius)           //рандомная позиция для радиуса в заданном прямоугольнике    
     {
         bool check = true;
         Vector2 pos = Vector2.zero;
@@ -83,7 +94,7 @@ public class SceneController : MonoBehaviour
         {
             check = false;
             counter++;
-            if (counter == 1000)
+            if (counter == 1000)                                        //по истечению 1000 неудачных попыток, аварийно выходим
             {
                 Debug.LogError("No more space");
                 return Vector2.zero;
@@ -106,7 +117,7 @@ public class SceneController : MonoBehaviour
         return pos;
     }
 
-    Enemy InstatiateUnitRandom(string name, Vector2 radius, Vector2 speed, Vector2 cellSize, Side side)
+    Enemy InstatiateUnitRandom(string name, Vector2 radius, Vector2 speed, Vector2 cellSize, Side side)         //спавн конкретного юнита с рандомными пар-ми
     {
         SaveConfig unitConfig = new SaveConfig();
         unitConfig.id = name;
@@ -118,7 +129,7 @@ public class SceneController : MonoBehaviour
         return InstatiateUnit(unitConfig, cellSize);
     }
 
-    Enemy InstatiateUnit(SaveConfig unitConfig, Vector2 cellSize)
+    Enemy InstatiateUnit(SaveConfig unitConfig, Vector2 cellSize)                                                   //спавн конкретного юнита с конкретными пар-ми
     {
         GameObject unit = Instantiate(_unitPref, _gameArea, false);
         unit.name = unitConfig.id;
@@ -135,16 +146,16 @@ public class SceneController : MonoBehaviour
         _units.Add(enemy);
 
         return unit.GetComponent<Enemy>();
-    }
+    }                                            
 
-    public void Load(SaveConfigList saves, float delay)
+    public void Load(SaveConfigList saves, float delay)                                                             //запуск загрузки
     {
         if (cor != null)
             StopCoroutine(cor);
         cor = StartCoroutine(LoadRountine(saves, delay));
     }
 
-    IEnumerator LoadRountine(SaveConfigList saves, float delay)
+    IEnumerator LoadRountine(SaveConfigList saves, float delay)                                                     //загрузка из памяти
     {
         for (int i = 0; i < _units.Count; i++)
             DestroyImmediate(_units[i].gameObject);
