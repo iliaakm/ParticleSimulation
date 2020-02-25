@@ -10,33 +10,27 @@ public class IOController : MonoBehaviour
     const string _gameConfigURL = "GameConfig.json";        //конфиг игры
     const string _savePattern = "EnemySave";                 //название сохранения
 
-    public GameConfig ParseGameConfig()                     //читаем конфиг
-    {
-        
-        string json = ReadJSON(_gameConfigURL);
-        GameConfig gameConfig = JsonUtility.FromJson<GameConfigRoot>(json).GameConfig;
-        return gameConfig;
-    }
 
-    string ReadJSON(string url)
+    public GameConfig ParseGameConfig()                     //читаем конфиг
     {
         string json = "";
         if (Application.platform == RuntimePlatform.Android)
         {
             string filePath = "jar:file://" + Application.dataPath + "!/assets/" + _gameConfigURL;
 
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                json = reader.ReadToEnd();
-            }
-            return json;            
+            WWW reader = new WWW(filePath);
+            while (!reader.isDone) { }
+
+            json = reader.text;
         }
-        else
+        if (Application.platform == RuntimePlatform.WindowsEditor)
         {
             string filePath = Path.Combine(Application.streamingAssetsPath, _gameConfigURL);
             json = File.ReadAllText(filePath);
-            return json;
         }
+
+        GameConfig gameConfig = JsonUtility.FromJson<GameConfigRoot>(json).GameConfig;
+        return gameConfig;
     }
 
     public void Save()
@@ -58,7 +52,7 @@ public class IOController : MonoBehaviour
         }
 
         string json = JsonUtility.ToJson(saves);
-       
+
         PlayerPrefs.SetString(_savePattern, json);
         PlayerPrefs.Save();
         print("saved");
@@ -69,7 +63,7 @@ public class IOController : MonoBehaviour
         string json = PlayerPrefs.GetString(_savePattern);
         SaveConfigList saves = new SaveConfigList();
         saves = JsonUtility.FromJson<SaveConfigList>(json);
-      
+
 
         return saves;
     }
