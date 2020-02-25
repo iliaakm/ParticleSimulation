@@ -37,13 +37,12 @@ public class MainController : MonoBehaviour
     State state;
     float _timeStart;
 
-    [HideInInspector]
-    public GameConfig _gameConfig;
+    public GameConfig gameConfig { get; private set; }
 
     void Awake()
     {
-        _gameConfig = _ioController.ParseGameConfig();
-        Init(_gameConfig);
+        gameConfig = _ioController.ParseGameConfig();
+        Init(gameConfig);
 
         _sceneController.onReady += SceneReady;
         _physicsController.onRemoveBlue += _uiController.OnRemoveBlue;
@@ -51,17 +50,18 @@ public class MainController : MonoBehaviour
         _physicsController.onOver += Over;
 
         _State = State.Idle;
-        Spawn(_gameConfig);
+        Spawn(gameConfig);
     }
 
     void Init(GameConfig config)                //инициализация
     {
-        _gameConfig.unitDestroyRadius *= 2;     //для удобства переводим в диаметры    
-        _gameConfig.unitSpawnMaxRadius *= 2;
-        _gameConfig.unitSpawnMinRadius *= 2;
+        gameConfig.unitDestroyRadius *= 2;     //для удобства переводим в диаметры    
+        gameConfig.unitSpawnMaxRadius *= 2;
+        gameConfig.unitSpawnMinRadius *= 2;
         _sceneController.SetBGScale(config.gameAreaWidth, config.gameAreaHeight);
 
         _uiController.Init(config.numUnitsToSpawn);
+        _physicsController.Init(config.unitDestroyRadius, config.gameAreaWidth, config.gameAreaHeight);
     }
 
     public void StartSim()                      //начать симуляцию
@@ -80,9 +80,9 @@ public class MainController : MonoBehaviour
         if (_State == State.Idle)
         {
             _State = State.Loading;
-            _sceneController.Spawn(gameConfig);            
+            _sceneController.Spawn(gameConfig);
         }
-    }               
+    }
 
     public void SceneReady()                    //готовность к запуску, юниты загружены
     {
@@ -109,8 +109,8 @@ public class MainController : MonoBehaviour
     {
         _State = State.Loading;
         SaveConfigList saves = _ioController.Load();
-        _sceneController.Load(saves, _gameConfig.unitSpawnDelay);
-    }                       
+        _sceneController.Load(saves, gameConfig.unitSpawnDelay);
+    }
 
     public void Reload()                        //начать заново
     {
@@ -119,7 +119,7 @@ public class MainController : MonoBehaviour
 
     void OnStateChange()                        //действия при смене состояния
     {
-        switch(_State)
+        switch (_State)
         {
             case State.Loading:
                 {
