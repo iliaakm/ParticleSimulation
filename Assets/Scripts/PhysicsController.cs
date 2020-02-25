@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using Zenject;
 
 public class PhysicsController : MonoBehaviour
 {
-    [SerializeField]
+    [Inject]
     SceneController _sceneController;
-
-    [SerializeField]
+    [Inject]
     MainController _mainController;
 
     [HideInInspector]
@@ -118,7 +118,7 @@ public class PhysicsController : MonoBehaviour
 
     public void OnRemoveBlue()
     {
-        int blueCoint = _mainController._sceneController._units.Where(x => x._side == Side.Blue).Count();
+        int blueCoint = _sceneController._units.Where(x => x._side == Side.Blue).Count();
         if (blueCoint == 0)
             onOver.Invoke(Side.Red);
         onRemoveBlue.Invoke(blueCoint);

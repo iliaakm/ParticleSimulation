@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 public enum State
 {
@@ -14,15 +15,14 @@ public enum State
 
 public class MainController : MonoBehaviour
 {
-    public IOController _ioController;
-
-    public SceneController _sceneController;
-
-    public PhysicsController _physicsController;
-
-    public UIController _uiController;
-
-    State state;
+    [Inject]
+    IOController _ioController;
+    [Inject]
+    SceneController _sceneController;
+    [Inject]
+    PhysicsController _physicsController;
+    [Inject]
+    UIController _uiController;
 
     public State _State
     {
@@ -34,8 +34,10 @@ public class MainController : MonoBehaviour
         }
     }
 
+    State state;
     float _timeStart;
 
+    [HideInInspector]
     public GameConfig _gameConfig;
 
     void Awake()

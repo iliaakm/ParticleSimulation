@@ -4,11 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField]
+    [Inject]
     MainController _mainController;
+
+    [Inject]
+    PhysicsController _physicsController;
+
     [SerializeField]
     Image _progressRed, _progressBlue;
     [SerializeField]
@@ -37,7 +42,7 @@ public class UIController : MonoBehaviour
         _btnSave.onClick.AddListener(() => _mainController.Save());
         _btnLoad.onClick.AddListener(() => _mainController.Load());
         _btnReload.onClick.AddListener(() => _mainController.Reload());
-        _sliderSpeed.onValueChanged.AddListener((x) => _mainController._physicsController.SetTimeScale(_sliderSpeed.value));
+        _sliderSpeed.onValueChanged.AddListener((x) => _physicsController.SetTimeScale(_sliderSpeed.value));
     }
 
     public void ShowPlayBtn()

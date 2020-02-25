@@ -34,7 +34,7 @@ public class IOController : MonoBehaviour
         return gameConfig;
     }
 
-    public void Save()
+    public void Save()                                      
     {
         int unitN = _sceneController._units.Count;
         SaveConfigList saves = new SaveConfigList();
