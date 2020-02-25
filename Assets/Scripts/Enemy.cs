@@ -52,8 +52,8 @@ public class Enemy : MonoBehaviour
     private void Move()
     {
         transform.localPosition = Vector2.MoveTowards(transform.localPosition, _target, _speed * Time.fixedDeltaTime);
-        Vector2 pos = transform.localPosition + (Vector3)_areaSize / 2;
-        _currentCell = new Vector2(Mathf.RoundToInt(pos.x / _cellSize.x), Mathf.RoundToInt(pos.y / _cellSize.y));
+        _pos = transform.localPosition + (Vector3)_areaSize / 2;
+        _currentCell = new Vector2(Mathf.RoundToInt(_pos.x / _cellSize.x), Mathf.RoundToInt(_pos.y / _cellSize.y));
 
         if (transform.localPosition == _target)
             ReDirection();
