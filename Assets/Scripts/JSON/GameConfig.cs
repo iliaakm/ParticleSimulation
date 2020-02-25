@@ -3,15 +3,15 @@
 [Serializable]
 public class GameConfig
 {
-    public int gameAreaWidth;
-    public int gameAreaHeight;
-    public int numUnitsToSpawn;
-    public float unitSpawnDelay;
-    public float unitSpawnMinRadius;
-    public float unitSpawnMaxRadius;
-    public float unitSpawnMinSpeed;
-    public float unitSpawnMaxSpeed;
-    public float unitDestroyRadius;
+    public int gameAreaWidth;               //ширина зоны
+    public int gameAreaHeight;              //высота зоны
+    public int numUnitsToSpawn;             //число юнитов для спавна
+    public float unitSpawnDelay;            //задержка между спавнами (в секундах)
+    public float unitSpawnMinRadius;        //мин радиус юнита
+    public float unitSpawnMaxRadius;        //макс радиус юнита
+    public float unitSpawnMinSpeed;         //мин скорость юнита
+    public float unitSpawnMaxSpeed;         //макс скорость юнита
+    public float unitDestroyRadius;         //радиус уничтожения
 }
 
 public class GameConfigRoot
