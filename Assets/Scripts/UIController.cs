@@ -38,7 +38,6 @@ public class UIController : MonoBehaviour
         _btnLoad.onClick.AddListener(() => _mainController.ioController.Load());
         _btnReload.onClick.AddListener(() => _mainController.Reload());
         _sliderSpeed.onValueChanged.AddListener((x) => _mainController._physicsController.SetTimeScale(_sliderSpeed.value));
-        _btnStart.interactable = false;
     }
 
     public void ShowPlayBtn()
