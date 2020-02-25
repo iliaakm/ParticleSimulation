@@ -12,19 +12,20 @@ public class Enemy : MonoBehaviour
     public Side _side;
     public float _radius;
     public float _speed;
-    public Vector2 pos;
+    public Vector2 _pos;
     public Vector2 _areaSize;
     public Vector2 _currentCell;
     public Vector2 _cellSize;
 
-    Vector3 _target;
+    public Vector3 _target;
     int _axis;
-    bool canMove;
+    bool _canMove;
 
-    public void StartMovement()
+    public void StartMovement(bool redirect = true)
     {
-        canMove = true;
-        ReDirection();
+        _canMove = true;
+        if (redirect)
+            ReDirection();
     }
 
     public void ReDirection()
@@ -35,7 +36,7 @@ public class Enemy : MonoBehaviour
         else
             _axis *= -1;
 
-        if(_axis < 0 )
+        if (_axis < 0)
         {
             _target.x = RandomSign() * _areaSize.x / 2;
             _target.y = Random.Range(0, _areaSize.y) - _areaSize.y / 2;
@@ -51,7 +52,7 @@ public class Enemy : MonoBehaviour
     private void Move()
     {
         transform.localPosition = Vector2.MoveTowards(transform.localPosition, _target, _speed * Time.fixedDeltaTime);
-        Vector2 pos = transform.localPosition + (Vector3)_areaSize/2;
+        Vector2 pos = transform.localPosition + (Vector3)_areaSize / 2;
         _currentCell = new Vector2(Mathf.RoundToInt(pos.x / _cellSize.x), Mathf.RoundToInt(pos.y / _cellSize.y));
 
         if (transform.localPosition == _target)
@@ -60,7 +61,7 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (canMove) Move();
+        if (_canMove) Move();
     }
     int RandomSign()
     {
