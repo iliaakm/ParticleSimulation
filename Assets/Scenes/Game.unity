@@ -1049,6 +1049,7 @@ MonoBehaviour:
   _gameArea: {fileID: 311683308}
   _unitPref: {fileID: 3226281274966302609, guid: 635e84e35df6eb941a50098d3bf9c5d4,
     type: 3}
+  cameraHeight: 50
   _units: []
   _areaSize: {x: 0, y: 0}
   minRadius: 0
@@ -1639,7 +1640,7 @@ RectTransform:
   m_GameObject: {fileID: 1878194737}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 1974519581}
   - {fileID: 197585715}
