@@ -10,6 +10,7 @@ public class SaveConfig
     public float radius;
     public float speed;
     public Vector2 pos;
+    public Vector2 target;
 }
 
 [Serializable]

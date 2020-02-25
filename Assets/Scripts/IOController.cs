@@ -28,10 +28,11 @@ public class IOController : MonoBehaviour
             Enemy enemy = _sceneController._units[i];
             saves.saveConfigs[i] = new SaveConfig();
             saves.saveConfigs[i].id = enemy.name;
-            saves.saveConfigs[i].pos = enemy.pos;
             saves.saveConfigs[i].side = enemy._side;
             saves.saveConfigs[i].radius = enemy._radius;
             saves.saveConfigs[i].speed = enemy._speed;
+            saves.saveConfigs[i].pos = enemy._pos;
+            saves.saveConfigs[i].target = enemy._target;
         }
 
         string json = JsonUtility.ToJson(saves);
@@ -46,10 +47,7 @@ public class IOController : MonoBehaviour
         string json = PlayerPrefs.GetString(_savePattern);
         SaveConfigList saves = new SaveConfigList();
         saves = JsonUtility.FromJson<SaveConfigList>(json);
-        //for (int i = 0; i < saves.saveConfigs.Length; i++)
-        //{
-        //    print(saves.saveConfigs[i].id);
-        //}
+      
 
         return saves;
     }
