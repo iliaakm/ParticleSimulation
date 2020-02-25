@@ -19,9 +19,14 @@ public class PhysicsController : MonoBehaviour
     [HideInInspector]
     public UnityAction<Side> onOver;
 
+    private void Awake()
+    {
+        SetTimeScale(1f);
+    }
+
     private void FixedUpdate()
     {
-        if (_mainController._State == State.Playing) CalcCollisions();
+        if (_mainController._State == State.Playing) CalcCollisions();          
     }
 
     private void CalcCollisions()
