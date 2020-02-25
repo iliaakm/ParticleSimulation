@@ -19,10 +19,15 @@ public class PhysicsController : MonoBehaviour
     [HideInInspector]
     public UnityAction<Side> onOver;            //завершить симуляцию
 
-    private void Awake()
+    float _radiusDestroy;                       //минимальный радиус
+    Vector2 _areaSize;                          //размер игровой зоны
+
+    public void Init(float radiusDestroy, float width, float height)         //инициализация  
     {
-        SetTimeScale(1f);
-    }                     //дефолт timescale
+        SetTimeScale(1f);                        //дефолт timescale
+        _radiusDestroy = radiusDestroy;
+        _areaSize = new Vector2(width, height);
+    }                    
 
     private void FixedUpdate()
     {
@@ -40,10 +45,10 @@ public class PhysicsController : MonoBehaviour
             List<Enemy> nearby = new List<Enemy>();
             nearby.AddRange(_sceneController._units.Where(x => x.CurrentCell.x == cellX && x != currentEnemy));
             if (cellX != 0) nearby.AddRange(_sceneController._units.Where(x => x.CurrentCell.x == cellX - 1));
-            if (cellX != _sceneController._areaSize.x) nearby.AddRange(_sceneController._units.Where(x => x.CurrentCell.x == cellX + 1));
+            if (cellX != _areaSize.x) nearby.AddRange(_sceneController._units.Where(x => x.CurrentCell.x == cellX + 1));
             nearby.AddRange(_sceneController._units.Where(x => x.CurrentCell.y == cellY && x != currentEnemy));
             if (cellY != 0) nearby.AddRange(_sceneController._units.Where(x => x.CurrentCell.x == cellY - 1));
-            if (cellY != _sceneController._areaSize.y) nearby.AddRange(_sceneController._units.Where(x => x.CurrentCell.x == cellY + 1));
+            if (cellY != _areaSize.y) nearby.AddRange(_sceneController._units.Where(x => x.CurrentCell.x == cellY + 1));
 
             nearby.RemoveAll(x => x == currentEnemy);           //проверка на самого себя
             nearby = nearby.Distinct().ToList();                //уничтожаем клонов
@@ -65,7 +70,7 @@ public class PhysicsController : MonoBehaviour
                     else                                 
                     {
                         float radius = oppositeEnemy.Radius * distance / oppositeEnemy.Speed;         //если разные, то уменьшаем
-                        if (radius < _sceneController.minRadius)                                        //если меньше минимального, то уничтожаем            
+                        if (radius < _radiusDestroy)                                        //если меньше минимального, то уничтожаем            
                         {                          
                             //print("remove " + oppositeEnemy.name);
                             _sceneController._units.Remove(oppositeEnemy);
@@ -79,7 +84,7 @@ public class PhysicsController : MonoBehaviour
                             oppositeEnemy.SetRadius(radius);
 
                         radius = currentEnemy.Radius * distance / currentEnemy.Speed;
-                        if (radius < _sceneController.minRadius)                        //если меньше минимального, то уничтожаем
+                        if (radius < _radiusDestroy)                        //если меньше минимального, то уничтожаем
                         {
                             //print("remove " + currentEnemy.name);
                             _sceneController._units.Remove(currentEnemy);
