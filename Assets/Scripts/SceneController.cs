@@ -43,8 +43,7 @@ public class SceneController : MonoBehaviour
         Vector2 speedMinMax = new Vector2(config.unitSpawnMinSpeed, config.unitSpawnMaxSpeed);
         Vector2 cellSize = new Vector2(radiusMinMax.y, radiusMinMax.y);
         minRadius = config.unitDestroyRadius;
-
-        //yield return new WaitForSeconds(delay);
+        
         for (int i = 0; i < count; i++)
         {
             Enemy blueOne = InstatiateUnit(count, radiusMinMax, speedMinMax, cellSize, Side.Blue);            //спавним синих
@@ -57,7 +56,7 @@ public class SceneController : MonoBehaviour
             redOne.name = "Red_" + i;
             _units.Add(redOne);
 
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForSeconds(delay);
         }
         onReady.Invoke();
     }
