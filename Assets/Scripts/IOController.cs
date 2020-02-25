@@ -13,7 +13,6 @@ public class IOController : MonoBehaviour
     const string _gameConfigURL = "GameConfig.json";         //конфиг игры
     const string _savePattern = "EnemySave";                 //название сохранения
 
-
     public GameConfig ParseGameConfig()                     //читаем конфиг
     {
         string json = "";
