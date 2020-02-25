@@ -13,28 +13,28 @@ public class PhysicsController : MonoBehaviour
     MainController _mainController;
 
     [HideInInspector]
-    public UnityAction<int> onRemoveBlue;
+    public UnityAction<int> onRemoveBlue;       //посчитать остаток синих
     [HideInInspector]
-    public UnityAction<int> onRemoveRed;
+    public UnityAction<int> onRemoveRed;        //посчитать остаток красных
     [HideInInspector]
-    public UnityAction<Side> onOver;
+    public UnityAction<Side> onOver;            //завершить симуляцию
 
     private void Awake()
     {
         SetTimeScale(1f);
-    }
+    }                     //дефолт timescale
 
     private void FixedUpdate()
     {
         if (_mainController._State == State.Playing) CalcCollisions();          
     }
 
-    private void CalcCollisions()
+    private void CalcCollisions()               //обсчет физики
     {
-        for (int i = 0; i < _sceneController._units.Count / 2; i++)
+        for (int i = 0; i < _sceneController._units.Count; i++)         //пробегаемся по живым юнитам
         {
-            Enemy currentEnemy = _sceneController._units[i];
-            int cellX = (int)currentEnemy._currentCell.x;
+            Enemy currentEnemy = _sceneController._units[i];            
+            int cellX = (int)currentEnemy._currentCell.x;               //ищем ячейку юнита, размер ячейки равен макс. диаметру
             int cellY = (int)currentEnemy._currentCell.y;
 
             List<Enemy> nearby = new List<Enemy>();
@@ -45,8 +45,8 @@ public class PhysicsController : MonoBehaviour
             if (cellY != 0) nearby.AddRange(_sceneController._units.Where(x => x._currentCell.x == cellY - 1));
             if (cellY != _sceneController._areaSize.y) nearby.AddRange(_sceneController._units.Where(x => x._currentCell.x == cellY + 1));
 
-            nearby.RemoveAll(x => x == currentEnemy);
-            nearby = nearby.Distinct().ToList();
+            nearby.RemoveAll(x => x == currentEnemy);           //проверка на самого себя
+            nearby = nearby.Distinct().ToList();                //уничтожаем клонов
 
             for (int y = 0; y < nearby.Count; y++)
             {
@@ -54,18 +54,18 @@ public class PhysicsController : MonoBehaviour
 
                 float radiusSum = (currentEnemy._radius + oppositeEnemy._radius) / 2;
                 float distance = Vector2.Distance(currentEnemy.transform.localPosition, oppositeEnemy.transform.localPosition);
-                if (distance <= radiusSum)
+                if (distance <= radiusSum)                              //если столкновение
                 {
-                    if (currentEnemy._side == oppositeEnemy._side)
+                    if (currentEnemy._side == oppositeEnemy._side)      //если одинаковые, то отталкиваемся
                     {
                         currentEnemy.ReDirection();
                         oppositeEnemy.ReDirection();
                         //Debug.Log("faced " + oppositeEnemy.name + " " + currentEnemy.name, oppositeEnemy.gameObject);
                     }
-                    else
+                    else                                 
                     {
-                        float radius = oppositeEnemy._radius * distance / oppositeEnemy._speed;
-                        if (radius < _sceneController.minRadius)
+                        float radius = oppositeEnemy._radius * distance / oppositeEnemy._speed;         //если разные, то уменьшаем
+                        if (radius < _sceneController.minRadius)                                        //если меньше минимального, то уничтожаем            
                         {                          
                             //print("remove " + oppositeEnemy.name);
                             _sceneController._units.Remove(oppositeEnemy);
@@ -79,23 +79,25 @@ public class PhysicsController : MonoBehaviour
                             oppositeEnemy.SetRadius(radius);
 
                         radius = currentEnemy._radius * distance / currentEnemy._speed;
-                        if (radius < _sceneController.minRadius)
+                        if (radius < _sceneController.minRadius)                        //если меньше минимального, то уничтожаем
                         {
                             //print("remove " + currentEnemy.name);
-                            _sceneController._units.Remove(currentEnemy);                           
+                            _sceneController._units.Remove(currentEnemy);
                             if (currentEnemy._side == Side.Blue) OnRemoveBlue();
                             if (currentEnemy._side == Side.Red) OnRemoveRed();
 
                             DestroyImmediate(currentEnemy.gameObject);
                             break;
                         }
+                        else
+                            currentEnemy.SetRadius(radius);
                     }
                 }
             }
         }
-    }
+    }               
 
-    public void MoveStart()
+    public void MoveStart()                     //запуск движения
     {
         for (int i = 0; i < _sceneController._units.Count; i++)
         {
@@ -103,12 +105,12 @@ public class PhysicsController : MonoBehaviour
         }
     }
 
-    public void SetTimeScale(float value)
+    public void SetTimeScale(float value)       //управление скоростью симуляции
     {
         Time.timeScale = value;
     }
 
-    public void OnRemoveRed()
+    public void OnRemoveRed()                   //по уничтожению красного
     {
         int redCoint = _sceneController._units.Where(x => x._side == Side.Red).Count();
         if (redCoint == 0)
@@ -116,7 +118,7 @@ public class PhysicsController : MonoBehaviour
         onRemoveRed.Invoke(redCoint);
     }
 
-    public void OnRemoveBlue()
+    public void OnRemoveBlue()                  //по уничтожению синего
     {
         int blueCoint = _sceneController._units.Where(x => x._side == Side.Blue).Count();
         if (blueCoint == 0)
