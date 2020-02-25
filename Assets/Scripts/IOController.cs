@@ -41,14 +41,16 @@ public class IOController : MonoBehaviour
         print("saved");
     }
 
-    public void Load()
+    public SaveConfigList Load()
     {
         string json = PlayerPrefs.GetString(_savePattern);
         SaveConfigList saves = new SaveConfigList();
         saves = JsonUtility.FromJson<SaveConfigList>(json);
-        for (int i = 0; i < saves.saveConfigs.Length; i++)
-        {
-            print(saves.saveConfigs[i].id);
-        }
+        //for (int i = 0; i < saves.saveConfigs.Length; i++)
+        //{
+        //    print(saves.saveConfigs[i].id);
+        //}
+
+        return saves;
     }
 }
