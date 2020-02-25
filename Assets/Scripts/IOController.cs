@@ -45,13 +45,15 @@ public class IOController : MonoBehaviour
         for (int i = 0; i < unitN; i++)
         {
             Enemy enemy = _sceneController._units[i];
-            saves.saveConfigs[i] = new SaveConfig();
-            saves.saveConfigs[i].id = enemy.name;
-            saves.saveConfigs[i].side = enemy._side;
-            saves.saveConfigs[i].radius = enemy._radius;
-            saves.saveConfigs[i].speed = enemy._speed;
-            saves.saveConfigs[i].pos = enemy._pos;
-            saves.saveConfigs[i].target = enemy._target;
+            saves.saveConfigs[i] = new SaveConfig
+            {
+                id = enemy.name,
+                side = enemy.Side,
+                radius = enemy.Radius,
+                speed = enemy.Speed,
+                pos = enemy.Pos,
+                target = enemy.Target
+            };
         }
 
         string json = JsonUtility.ToJson(saves);
