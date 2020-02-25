@@ -4,7 +4,7 @@
     "gameAreaWidth": 100,
     "gameAreaHeight": 100,
     "numUnitsToSpawn": 100,
-    "unitSpawnDelay": 5,
+    "unitSpawnDelay": 0.05,
     "unitSpawnMinRadius": 0.5,
     "unitSpawnMaxRadius": 1,
     "unitSpawnMinSpeed": 5,
