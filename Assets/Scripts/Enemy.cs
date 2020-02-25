@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Side
+public enum Side            
 {
     None, Blue, Red
 }
@@ -21,14 +21,14 @@ public class Enemy : MonoBehaviour
     int _axis;
     bool _canMove;
 
-    public void StartMovement(bool redirect = true)
+    public void StartMovement(bool redirect = true)         //начать(продолжить) движение
     {
         _canMove = true;
         if (redirect)
             ReDirection();
     }
 
-    public void ReDirection()
+    public void ReDirection()                               //задать новое направление    
     {
         _target = Vector2.zero;
         if (_axis == 0)
@@ -48,7 +48,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void Move()
+    private void Move()                                     //обсчет движения
     {
         transform.localPosition = Vector2.MoveTowards(transform.localPosition, _target, _speed * Time.fixedDeltaTime);
         _pos = transform.localPosition + (Vector3)_areaSize / 2;
@@ -63,18 +63,19 @@ public class Enemy : MonoBehaviour
     {
         if (_canMove) Move();
     }
-    int RandomSign()
+
+    int RandomSign()                                        //-1:1
     {
         return Random.value < 0.5f ? 1 : -1;
     }
 
-    public void SetRadius(float radius)
+    public void SetRadius(float radius)                     //задать радиус
     {
         _radius = radius;
         transform.localScale = Vector3.one * radius;
     }
 
-    public void SetPos(Vector2 pos)
+    public void SetPos(Vector2 pos)                         //задать позицию
     {
         transform.localPosition = pos;
         _pos = pos;
