@@ -4,18 +4,20 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
+using Zenject;
 
 public class IOController : MonoBehaviour
 {
-    public SceneController _sceneController;
-    const string _gameConfigURL = "GameConfig.json";        //конфиг игры
+    [Inject]
+    SceneController _sceneController;
+    const string _gameConfigURL = "GameConfig.json";         //конфиг игры
     const string _savePattern = "EnemySave";                 //название сохранения
 
 
     public GameConfig ParseGameConfig()                     //читаем конфиг
     {
         string json = "";
-        if (Application.platform == RuntimePlatform.Android)
+        if (Application.platform == RuntimePlatform.Android)                    //т.к. json упакован в apk, читаем его отдельно
         {
             string filePath = "jar:file://" + Application.dataPath + "!/assets/" + _gameConfigURL;
 
@@ -34,7 +36,7 @@ public class IOController : MonoBehaviour
         return gameConfig;
     }
 
-    public void Save()                                      
+    public void Save()                                       //сохраняем положение                   
     {
         int unitN = _sceneController._units.Count;
         SaveConfigList saves = new SaveConfigList();
@@ -59,12 +61,12 @@ public class IOController : MonoBehaviour
         print("saved");
     }
 
-    public SaveConfigList Load()
+    public SaveConfigList Load()                            //чтение из памяти и парсинг
     {
-        string json = "";
+        string json = "";                                   
         try
         {
-            json = PlayerPrefs.GetString(_savePattern);
+            json = PlayerPrefs.GetString(_savePattern);     //на случай отсутствия
         }
         catch (Exception ex)
         {
