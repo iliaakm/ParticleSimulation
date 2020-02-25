@@ -122,4 +122,14 @@ public class SceneController : MonoBehaviour
 
         return unit.GetComponent<Enemy>();
     }
+
+    public void Load(SaveConfigList saves)
+    {
+        for (int i = 0; i < saves.saveConfigs.Length; i++)
+        {
+            print(saves.saveConfigs[i].id);
+        }
+
+        onReady.Invoke();
+    }
 }
