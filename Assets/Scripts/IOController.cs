@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -60,11 +61,18 @@ public class IOController : MonoBehaviour
 
     public SaveConfigList Load()
     {
-        string json = PlayerPrefs.GetString(_savePattern);
+        string json = "";
+        try
+        {
+            json = PlayerPrefs.GetString(_savePattern);
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex);
+        }
+
         SaveConfigList saves = new SaveConfigList();
         saves = JsonUtility.FromJson<SaveConfigList>(json);
-
-
         return saves;
     }
 }
