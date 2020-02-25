@@ -19,13 +19,9 @@ public class PhysicsController : MonoBehaviour
     [HideInInspector]
     public UnityAction<Side> onOver;
 
-    float _fixeTimeDefault;
-
-    bool handlePhysics = false;
-
     private void FixedUpdate()
     {
-        if (handlePhysics) CalcCollisions();
+        if (_mainController._State == State.Playing) CalcCollisions();
     }
 
     private void CalcCollisions()
@@ -50,9 +46,6 @@ public class PhysicsController : MonoBehaviour
             for (int y = 0; y < nearby.Count; y++)
             {
                 Enemy oppositeEnemy = nearby[y]; 
-
-                //if (currentEnemy == oppositeEnemy)
-                //    print("pizdos");
 
                 float radiusSum = (currentEnemy._radius + oppositeEnemy._radius) / 2;
                 float distance = Vector2.Distance(currentEnemy.transform.localPosition, oppositeEnemy.transform.localPosition);
@@ -99,7 +92,6 @@ public class PhysicsController : MonoBehaviour
 
     public void MoveStart()
     {
-        handlePhysics = true;
         for (int i = 0; i < _sceneController._units.Count; i++)
         {
             _sceneController._units[i].StartMovement();
